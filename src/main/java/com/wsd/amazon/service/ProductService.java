@@ -8,6 +8,9 @@ import com.wsd.amazon.entity.PurchaseHistory;
 import com.wsd.amazon.entity.WishList;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 public interface ProductService {
     Product createProduct(ProductReq productReq);
 
@@ -16,4 +19,8 @@ public interface ProductService {
     WishList addToWishList(WishListReq wishListReq);
 
     Page<WishList> getUserWishList(long userId, int pageNo, int pageSize);
+
+    BigDecimal getCurrentDayTotalSaleAmount();
+
+    Date getTopSaleDay(Date fromDate, Date toDate);
 }

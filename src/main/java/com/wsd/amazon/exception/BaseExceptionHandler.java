@@ -2,7 +2,7 @@ package com.wsd.amazon.exception;
 
 import com.wsd.amazon.utils.ApiResponse;
 import com.wsd.amazon.utils.BaseService;
-import com.wsd.amazon.utils.ResponseUtils;
+import com.wsd.amazon.utils.ResponseUtil;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class BaseExceptionHandler extends BaseService {
     @ExceptionHandler({BaseException.class})
     public final ResponseEntity<ApiResponse<Void>> handleBaseException(BaseException ex) {
         logger.error(ex.getLocalizedMessage(), ex);
-        ApiResponse<Void> apiResponse = ResponseUtils.buildErrorResponse(E100200, ex.getMessage());
+        ApiResponse<Void> apiResponse = ResponseUtil.buildErrorResponse(E100200, ex.getMessage());
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
@@ -38,7 +38,7 @@ public class BaseExceptionHandler extends BaseService {
         logger.error(ex.getLocalizedMessage(), ex);
         String rootCause = Objects.nonNull(ex.getRootCause()) ? ex.getRootCause().toString() : SPACE;
         logger.error(ROOT_CAUSE + COLON + SPACE + rootCause);
-        ApiResponse<Void> apiResponse = ResponseUtils.buildErrorResponse(E100100, DB_EXCEPTION_MSG);
+        ApiResponse<Void> apiResponse = ResponseUtil.buildErrorResponse(E100100, DB_EXCEPTION_MSG);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
@@ -50,14 +50,14 @@ public class BaseExceptionHandler extends BaseService {
                 .map(FieldError::getDefaultMessage)
                 .toList();
         logger.error(ROOT_CAUSE + COLON + SPACE + errors.getFirst());
-        ApiResponse<Void> apiResponse = ResponseUtils.buildErrorResponse(E100300, errors.getFirst());
+        ApiResponse<Void> apiResponse = ResponseUtil.buildErrorResponse(E100300, errors.getFirst());
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @ExceptionHandler({Exception.class})
     public final ResponseEntity<ApiResponse<Void>> handleCommonException(Exception ex) {
         logger.error(ex.getLocalizedMessage(), ex);
-        ApiResponse<Void> apiResponse = ResponseUtils.buildErrorResponse(E100000, SERVER_EXCEPTION_MSG);
+        ApiResponse<Void> apiResponse = ResponseUtil.buildErrorResponse(E100000, SERVER_EXCEPTION_MSG);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

@@ -138,37 +138,12 @@
         </rollingPolicy>
     </appender>
 
-    <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5000</destination>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <mdc />
-                <context />
-                <logLevel />
-                <loggerName />
-                <pattern>
-                    <pattern>
-                        {
-                        "appName": "app-one"
-                        }
-                    </pattern>
-                </pattern>
-                <threadName />
-                <message />
-                <logstashMarkers />
-                <stackTrace />
-                <arguments/>
-            </providers>
-        </encoder>
-    </appender>-->
-
     <logger name="errorLogger" level="ERROR" additivity="false">
         <appender-ref ref="ERROR_FILE_APPENDER"/>
     </logger>
 
     <logger name="traceLogger" level="TRACE" additivity="false">
         <appender-ref ref="TRACE_FILE_APPENDER"/>
-        <!--<appender-ref ref="LOGSTASH"/>-->
     </logger>
 
     <logger name="performanceLogger" level="TRACE" additivity="false">
@@ -182,9 +157,5 @@
     <logger name="integrationPerformanceLogger" level="TRACE" additivity="false">
         <appender-ref ref="INTEGRATION_PERFORMANCE_FILE_APPENDER"/>
     </logger>
-
-    <!--<root level="info">
-        <appender-ref ref="STDOUT_CONSOLE_APPENDER"/>
-    </root>-->
 
 </configuration>

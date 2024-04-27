@@ -83,4 +83,16 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         logger.trace("Getting user wish list products...");
         return wishListRepository.findByUserId(userId, pageable);
     }
+
+    @Override
+    public BigDecimal getCurrentDayTotalSaleAmount() {
+        logger.trace("Getting current day total sale amount from db...");
+        return purchaseHistoryRepository.getCurrentDayTotalSaleAmount();
+    }
+
+    @Override
+    public Date getTopSaleDay(Date fromDate, Date toDate) {
+        logger.trace("Getting top sale day in given time period...");
+        return purchaseHistoryRepository.getTopSaleDay(fromDate, toDate);
+    }
 }

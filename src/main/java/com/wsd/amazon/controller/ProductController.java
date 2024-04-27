@@ -8,10 +8,14 @@ import com.wsd.amazon.entity.PurchaseHistory;
 import com.wsd.amazon.entity.WishList;
 import com.wsd.amazon.service.ProductService;
 import com.wsd.amazon.utils.ApiResponse;
-import com.wsd.amazon.utils.ResponseUtils;
+import com.wsd.amazon.utils.ResponseUtil;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 import static com.wsd.amazon.utils.Constants.BASE_URL;
 
@@ -26,23 +30,34 @@ public class ProductController {
 
     @PostMapping()
     public ApiResponse<Product> createProduct(@Valid @RequestBody ProductReq productReq) {
-        return ResponseUtils.buildSuccessResponse(productService.createProduct(productReq));
+        return ResponseUtil.buildSuccessResponse(productService.createProduct(productReq));
     }
 
     @PostMapping("/purchase")
     public ApiResponse<PurchaseHistory> purchase(@Valid @RequestBody PurchaseReq purchaseReq) {
-        return ResponseUtils.buildSuccessResponse(productService.purchase(purchaseReq));
+        return ResponseUtil.buildSuccessResponse(productService.purchase(purchaseReq));
     }
 
     @PostMapping("/wishlist")
     public ApiResponse<WishList> addToWishList(@Valid @RequestBody WishListReq wishListReq) {
-        return ResponseUtils.buildSuccessResponse(productService.addToWishList(wishListReq));
+        return ResponseUtil.buildSuccessResponse(productService.addToWishList(wishListReq));
     }
 
     @GetMapping("/wishlist")
     public ApiResponse<Page<WishList>> getUserWishList(@RequestParam long userId,
                                                        @RequestParam(defaultValue = "0") int pageNo,
                                                        @RequestParam(defaultValue = "10") int pageSize) {
-        return ResponseUtils.buildSuccessResponse(productService.getUserWishList(userId, pageNo, pageSize));
+        return ResponseUtil.buildSuccessResponse(productService.getUserWishList(userId, pageNo, pageSize));
+    }
+
+    @GetMapping("/today/total-sale")
+    public ApiResponse<BigDecimal> getCurrentDayTotalSaleAmount() {
+        return ResponseUtil.buildSuccessResponse(productService.getCurrentDayTotalSaleAmount());
+    }
+
+    @GetMapping("/top-sale-day")
+    public ApiResponse<Date> getTopSaleDay(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
+        return ResponseUtil.buildSuccessResponse(productService.getTopSaleDay(fromDate, toDate));
     }
 }

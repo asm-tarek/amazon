@@ -1,5 +1,6 @@
 package com.wsd.amazon.entity;
 
+import com.wsd.amazon.utils.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -19,7 +19,7 @@ class UserWishListTests {
     private WishListRepository wishListRepository;
 
     @Test
-    void getWishListProductsOfAUser() throws Exception {
+    void shouldBeAbleToReturnListOfWishListProductsOfAUser() {
 
         Pageable pageable = PageRequest.of(0, 10);
 

@@ -1,4 +1,4 @@
-package com.wsd.amazon.entity;
+package com.wsd.amazon.utils;
 
 import jakarta.persistence.*;
 import lombok.Data;

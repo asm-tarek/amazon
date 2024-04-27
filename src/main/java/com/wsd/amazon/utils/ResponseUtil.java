@@ -1,6 +1,6 @@
 package com.wsd.amazon.utils;
 
-public class ResponseUtils {
+public class ResponseUtil {
     private static final String S100000 = "S100000";
     private static final String E100000 = "E100000";
     private static final String SUCCESS_MSG = "Operation is completed successfully.";

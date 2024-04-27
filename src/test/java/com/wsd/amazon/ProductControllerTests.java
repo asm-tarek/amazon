@@ -28,8 +28,7 @@ class ProductControllerTests {
                                 .content(productStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.hasError", is(false)))
-                .andExpect(jsonPath("$.data.id").exists()
-                );
+                .andExpect(jsonPath("$.data.id").exists());
     }
 
     @Test

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static com.wsd.amazon.utils.Constants.BASE_URL;
 
@@ -59,5 +60,15 @@ public class ProductController {
     public ApiResponse<Date> getTopSaleDay(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
         return ResponseUtil.buildSuccessResponse(productService.getTopSaleDay(fromDate, toDate));
+    }
+
+    @GetMapping("/all-time/top5")
+    public ApiResponse<List<Long>> getTopSaleDay() {
+        return ResponseUtil.buildSuccessResponse(productService.getAllTimeTop5SellingItem());
+    }
+
+    @GetMapping("/last-month/top5")
+    public ApiResponse<List<Long>> getLastMonthTop5SellingItem() {
+        return ResponseUtil.buildSuccessResponse(productService.getLastMonthTop5SellingItem());
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -94,5 +95,17 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     public Date getTopSaleDay(Date fromDate, Date toDate) {
         logger.trace("Getting top sale day in given time period...");
         return purchaseHistoryRepository.getTopSaleDay(fromDate, toDate);
+    }
+
+    @Override
+    public List<Long> getAllTimeTop5SellingItem() {
+        logger.trace("Getting all-time top 5 selling items based on total amount sales...");
+        return purchaseHistoryRepository.getAllTimeTop5SellingItem();
+    }
+
+    @Override
+    public List<Long> getLastMonthTop5SellingItem() {
+        logger.trace("Getting last month top 5 selling items based on total product count...");
+        return purchaseHistoryRepository.getLastMonthTop5SellingItem();
     }
 }

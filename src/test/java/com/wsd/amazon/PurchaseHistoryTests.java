@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,6 +53,34 @@ class PurchaseHistoryTests {
         //controller check
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/product/top-sale-day?fromDate=2024-04-25&toDate=2025-04-25"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.hasError", is(false)))
+                .andExpect(jsonPath("$.data").exists());
+    }
+
+    @Test
+    void shouldBeAbleToReturnAllTimeTop5ItemsBasedOnTotalSaleAmount() throws Exception {
+        //repository check
+        List<Long> productIdList = purchaseHistoryRepository.getAllTimeTop5SellingItem();
+        assertTrue(productIdList != null);
+
+        //controller check
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/product/all-time/top5"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.hasError", is(false)))
+                .andExpect(jsonPath("$.data").exists());
+    }
+
+    @Test
+    void shouldBeAbleToReturnLastMonthTop5ItemsBasedOnTotalProductCount() throws Exception {
+        //repository check
+        List<Long> productIdList = purchaseHistoryRepository.getLastMonthTop5SellingItem();
+        assertTrue(productIdList != null);
+
+        //controller check
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/product/last-month/top5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.hasError", is(false)))
                 .andExpect(jsonPath("$.data").exists());

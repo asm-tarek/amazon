@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public interface ProductService {
     Product createProduct(ProductReq productReq);
@@ -23,4 +24,8 @@ public interface ProductService {
     BigDecimal getCurrentDayTotalSaleAmount();
 
     Date getTopSaleDay(Date fromDate, Date toDate);
+
+    List<Long> getAllTimeTop5SellingItem();
+
+    List<Long> getLastMonthTop5SellingItem();
 }

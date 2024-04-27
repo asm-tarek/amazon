@@ -10,6 +10,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class ProductControllerTests {
@@ -24,7 +27,34 @@ class ProductControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(productStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.id").exists()
+                .andExpect(jsonPath("$.hasError", is(false)))
+                .andExpect(jsonPath("$.data.id").exists()
+                );
+    }
+
+    @Test
+    void successfulPurchase() throws Exception {
+        String productStr = FileUtil.readFromFileToString("jsons/ValidPurchaseData.json");
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/product/purchase")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(productStr))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.hasError", is(false)))
+                .andExpect(jsonPath("$.data.id").exists()
+                );
+    }
+
+    @Test
+    void successfulAddToWishList() throws Exception {
+        String productStr = FileUtil.readFromFileToString("jsons/ValidWishListData.json");
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/product/wishlist")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(productStr))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.hasError", is(false)))
+                .andExpect(jsonPath("$.data.id").exists()
                 );
     }
 }

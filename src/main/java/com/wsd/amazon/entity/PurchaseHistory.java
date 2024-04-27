@@ -1,6 +1,7 @@
 package com.wsd.amazon.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 @Table(name = "PURCHASE_HISTORY")
 @Getter
 @Setter
+@Builder
 public class PurchaseHistory extends BaseEntity {
     @Id
     @SequenceGenerator(name = "PurchaseHistorySeq", sequenceName = "PURCHASE_HISTORY_SEQ", allocationSize = 1)

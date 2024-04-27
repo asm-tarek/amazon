@@ -27,8 +27,9 @@ public class PurchaseHistory extends BaseEntity {
     @Column(name = "USER_ID")
     private long userId;
 
-    @Column(name = "PURCHASE_TIME")
-    private Date purchaseTime;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "PURCHASE_Date")
+    private Date purchaseDate;
 
     @Column(name = "COUNT")
     private int count;

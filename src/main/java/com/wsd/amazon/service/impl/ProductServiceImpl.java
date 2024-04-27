@@ -13,6 +13,9 @@ import com.wsd.amazon.repository.WishListRepository;
 import com.wsd.amazon.service.ProductService;
 import com.wsd.amazon.utils.BaseService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -50,7 +53,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         return purchaseHistoryRepository.save(PurchaseHistory.builder()
                 .product(product.get())
                 .userId(purchaseReq.getUserId())
-                .purchaseTime(new Date())
+                .purchaseDate(new Date())
                 .count(purchaseReq.getCount())
                 .unitPrice(purchaseReq.getUnitPrice())
                 .totalAmount(purchaseReq.getUnitPrice().multiply(BigDecimal.valueOf(purchaseReq.getCount())))
@@ -68,8 +71,16 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         return wishListRepository.save(WishList.builder()
                 .product(product.get())
                 .userId(wishListReq.getUserId())
-                .addOnTime(new Date())
+                .addOnDate(new Date())
                 .build()
         );
+    }
+
+    @Override
+    public Page<WishList> getUserWishList(long userId, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        logger.trace("Getting user wish list products...");
+        return wishListRepository.findByUserId(userId, pageable);
     }
 }

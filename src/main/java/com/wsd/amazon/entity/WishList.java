@@ -1,9 +1,7 @@
 package com.wsd.amazon.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -12,6 +10,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class WishList extends BaseEntity {
     @Id
     @SequenceGenerator(name = "WishListSeq", sequenceName = "WISH_LIST_SEQ", allocationSize = 1)
@@ -26,6 +26,7 @@ public class WishList extends BaseEntity {
     @Column(name = "USER_ID")
     private long userId;
 
-    @Column(name = "ADD_ON_TIME")
-    private Date addOnTime;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "ADD_ON_DATE")
+    private Date addOnDate;
 }

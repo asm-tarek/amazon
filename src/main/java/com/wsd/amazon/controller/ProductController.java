@@ -10,10 +10,8 @@ import com.wsd.amazon.service.ProductService;
 import com.wsd.amazon.utils.ApiResponse;
 import com.wsd.amazon.utils.ResponseUtils;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import static com.wsd.amazon.utils.Constants.BASE_URL;
 
@@ -39,5 +37,12 @@ public class ProductController {
     @PostMapping("/wishlist")
     public ApiResponse<WishList> addToWishList(@Valid @RequestBody WishListReq wishListReq) {
         return ResponseUtils.buildSuccessResponse(productService.addToWishList(wishListReq));
+    }
+
+    @GetMapping("/wishlist")
+    public ApiResponse<Page<WishList>> getUserWishList(@RequestParam long userId,
+                                                       @RequestParam(defaultValue = "0") int pageNo,
+                                                       @RequestParam(defaultValue = "10") int pageSize) {
+        return ResponseUtils.buildSuccessResponse(productService.getUserWishList(userId, pageNo, pageSize));
     }
 }

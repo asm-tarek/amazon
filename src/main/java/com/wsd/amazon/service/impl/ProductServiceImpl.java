@@ -11,7 +11,7 @@ import com.wsd.amazon.repository.ProductRepository;
 import com.wsd.amazon.repository.PurchaseHistoryRepository;
 import com.wsd.amazon.repository.WishListRepository;
 import com.wsd.amazon.service.ProductService;
-import com.wsd.amazon.utils.BaseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl extends BaseService implements ProductService {
+@Slf4j
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final PurchaseHistoryRepository purchaseHistoryRepository;
     private final WishListRepository wishListRepository;
@@ -40,7 +41,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Product product = new Product();
         BeanUtils.copyProperties(productReq, product);
 
-        logger.trace("Creating product....");
+        log.info("Creating product....");
         return productRepository.save(product);
     }
 
@@ -49,7 +50,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Optional<Product> product = productRepository.findById(purchaseReq.getProductId());
         if (product.isEmpty()) throw new BaseException("Invalid Product!");
 
-        logger.trace("Saving purchase data to history table....");
+        log.info("Saving purchase data to history table....");
 
         return purchaseHistoryRepository.save(PurchaseHistory.builder()
                 .product(product.get())
@@ -67,7 +68,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Optional<Product> product = productRepository.findById(wishListReq.getProductId());
         if (product.isEmpty()) throw new BaseException("Invalid Product!");
 
-        logger.trace("Adding product to user wishList....");
+        log.info("Adding product to user wishList....");
 
         return wishListRepository.save(WishList.builder()
                 .product(product.get())
@@ -81,31 +82,31 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     public Page<WishList> getUserWishList(long userId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
-        logger.trace("Getting user wish list products...");
+        log.info("Getting user wish list products...");
         return wishListRepository.findByUserId(userId, pageable);
     }
 
     @Override
     public BigDecimal getCurrentDayTotalSaleAmount() {
-        logger.trace("Getting current day total sale amount from db...");
+        log.info("Getting current day total sale amount from db...");
         return purchaseHistoryRepository.getCurrentDayTotalSaleAmount();
     }
 
     @Override
     public Date getTopSaleDay(Date fromDate, Date toDate) {
-        logger.trace("Getting top sale day in given time period...");
+        log.info("Getting top sale day in given time period...");
         return purchaseHistoryRepository.getTopSaleDay(fromDate, toDate);
     }
 
     @Override
     public List<Long> getAllTimeTop5SellingItem() {
-        logger.trace("Getting all-time top 5 selling items based on total amount sales...");
+        log.info("Getting all-time top 5 selling items based on total amount sales...");
         return purchaseHistoryRepository.getAllTimeTop5SellingItem();
     }
 
     @Override
     public List<Long> getLastMonthTop5SellingItem() {
-        logger.trace("Getting last month top 5 selling items based on total product count...");
+        log.info("Getting last month top 5 selling items based on total product count...");
         return purchaseHistoryRepository.getLastMonthTop5SellingItem();
     }
 }
